@@ -36,6 +36,7 @@ import UIKit
     @objc optional func walkthroughNextButtonPressed()               // Called when the "next page" button is pressed
     @objc optional func walkthroughPrevButtonPressed()               // Called when the "previous page" button is pressed
     @objc optional func walkthroughPage(_ walkthrough: BWWalkthroughViewController, didChange pageNumber: Int)   // Called when current page changes
+    @objc optional func walkthroughNeedCustomizeProfile()
 }
 
 
@@ -61,8 +62,8 @@ import UIKit
     @IBOutlet open var nextButton: UIButton?
     @IBOutlet open var prevButton: UIButton?
     @IBOutlet open var closeButton: UIButton?
-    
-    @IBOutlet open var vrumblePageControl: UIPageControl!
+    @IBOutlet open var customizeProfileButton: UIButton?
+    @IBOutlet open var vrumblePageControl: UIPageControl?
     @IBOutlet open var skipButton: UIButton?
     
     open var currentPage: Int {    // The index of the current page (readonly)
@@ -139,6 +140,9 @@ import UIKit
     
     
     // MARK: - Internal methods -
+    @IBAction func customizeProfile(_ sender: Any) {
+        delegate?.walkthroughNeedCustomizeProfile?()
+    }
     
     @IBAction open func nextPage(){
         if (currentPage + 1) < controllers.count {
@@ -244,7 +248,7 @@ import UIKit
             prevButton?.isHidden = false
         }
         
-        delegate?.walkthroughPage!(self, didChange: currentPage)
+        delegate?.walkthroughPage?(self, didChange: currentPage)
     }
     
     // MARK: - Scrollview Delegate -
