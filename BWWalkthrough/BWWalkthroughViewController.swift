@@ -35,7 +35,7 @@ import UIKit
     @objc optional func walkthroughCloseButtonPressed()              // If the skipRequest(sender:) action is connected to a button, this function is called when that button is pressed.
     @objc optional func walkthroughNextButtonPressed()               // Called when the "next page" button is pressed
     @objc optional func walkthroughPrevButtonPressed()               // Called when the "previous page" button is pressed
-    @objc optional func walkthroughPageDidChange(_ pageNumber:Int)   // Called when current page changes
+    @objc optional func walkthroughPage(_ walkthrough: BWWalkthroughViewController, didChange pageNumber: Int)   // Called when current page changes
 }
 
 
@@ -57,10 +57,13 @@ import UIKit
     weak open var delegate:BWWalkthroughViewControllerDelegate?
     
     // If you need a page control, next or prev buttons, add them via IB and connect with these Outlets
-    @IBOutlet open var pageControl:UIPageControl?
-    @IBOutlet open var nextButton:UIButton?
-    @IBOutlet open var prevButton:UIButton?
-    @IBOutlet open var closeButton:UIButton?
+    @IBOutlet open var pageControl: UIPageControl?
+    @IBOutlet open var nextButton: UIButton?
+    @IBOutlet open var prevButton: UIButton?
+    @IBOutlet open var closeButton: UIButton?
+    
+    @IBOutlet open var vrumblePageControl: UIPageControl!
+    @IBOutlet open var skipButton: UIButton?
     
     open var currentPage: Int {    // The index of the current page (readonly)
         get{
@@ -227,7 +230,6 @@ import UIKit
     fileprivate func updateUI(){
         
         pageControl?.currentPage = currentPage
-        delegate?.walkthroughPageDidChange?(currentPage)
         
         // Hide/Show navigation buttons
         if currentPage == controllers.count - 1{
@@ -241,6 +243,8 @@ import UIKit
         }else{
             prevButton?.isHidden = false
         }
+        
+        delegate?.walkthroughPage!(self, didChange: currentPage)
     }
     
     // MARK: - Scrollview Delegate -

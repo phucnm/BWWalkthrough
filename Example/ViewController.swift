@@ -58,6 +58,10 @@ class ViewController: UIViewController, BWWalkthroughViewControllerDelegate {
         print("Current Page \(pageNumber)")
     }
     
+    func walkthroughPage(_ walkthrough: BWWalkthroughViewController, didChange pageNumber: Int) {
+        
+    }
+    
     func walkthroughCloseButtonPressed() {
         self.dismiss(animated: true, completion: nil)
     }
